@@ -1,0 +1,5 @@
+C:/Workspace_new/STM32/Vending_Machine_Prog/CMakeFiles/Vending_Machine_Prog.dir
+C:/Workspace_new/STM32/Vending_Machine_Prog/CMakeFiles/edit_cache.dir
+C:/Workspace_new/STM32/Vending_Machine_Prog/CMakeFiles/rebuild_cache.dir
+C:/Workspace_new/STM32/Vending_Machine_Prog/cmake/stm32cubemx/CMakeFiles/edit_cache.dir
+C:/Workspace_new/STM32/Vending_Machine_Prog/cmake/stm32cubemx/CMakeFiles/rebuild_cache.dir
