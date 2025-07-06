@@ -51,12 +51,30 @@
 /* Private function prototypes -----------------------------------------------*/
 void SystemClock_Config(void);
 /* USER CODE BEGIN PFP */
-
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
+void USB_CDC_RxHandler(uint8_t* Buf, uint32_t Len)
+{
+    //CDC_Transmit_FS(Buf, Len);
 
+    switch(Buf[0]) // Check the first character of the buffer
+    {
+        case '1':
+            HAL_GPIO_TogglePin(LED_1_GPIO_Port, LED_1_Pin); // Toggle LED 1
+            CDC_Transmit_FS((uint8_t*) "LED 1 toggled\r\n", 16); // Send confirmation
+            break;
+        case '2':
+            HAL_GPIO_TogglePin(LED_2_GPIO_Port, LED_2_Pin); // Toggle LED 2
+            CDC_Transmit_FS((uint8_t*) "LED 2 toggled\r\n", 16); // Send confirmation
+            break;
+        default:
+            CDC_Transmit_FS((uint8_t*) "Unknown command\r\n", 17); // Send unknown command message
+            break;
+    }
+    
+}
 /* USER CODE END 0 */
 
 /**
@@ -88,11 +106,11 @@ int main(void)
 
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
-  //HAL_GPIO_WritePin(GPIOA, GPIO_PIN_15, GPIO_PIN_SET);
+  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_15, GPIO_PIN_SET);
 
-  HAL_Delay(1000);
+  HAL_Delay(100);
 
- MX_USB_DEVICE_Init();
+  MX_USB_DEVICE_Init();
 
   /* USER CODE BEGIN 2 */
   char buffer[] = "Hello, World!\r\n";
@@ -109,14 +127,14 @@ int main(void)
     /* USER CODE BEGIN WHILE */
     //HAL_GPIO_TogglePin(LED_1_GPIO_Port, LED_1_Pin); // Toggle LED 1
 
-    HAL_Delay(500);
-    uint32_t len = 0;
+  //  HAL_Delay(500);
+ 
 
   //  CDC_Receive_FS((uint8_t*) &buffer, &len); // Prepare to receive data
 
    // if(buffer[0] == 'a') // Check if the first character is '1'
    // {
-    //  HAL_GPIO_TogglePin(LED_2_GPIO_Port, LED_2_Pin); // Toggle LED 2
+     // HAL_GPIO_TogglePin(LED_2_GPIO_Port, LED_2_Pin); // Toggle LED 2
     //  CDC_Transmit_FS((uint8_t*) "LED 2 toggled\r\n", 16); // Send confirmation
    // }
     
