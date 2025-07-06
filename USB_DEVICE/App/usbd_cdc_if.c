@@ -7,7 +7,7 @@
   ******************************************************************************
   * @attention
   *
-  * Copyright (c) 2025 STMicroelectronics.
+  * Copyright (c) 2024 STMicroelectronics.
   * All rights reserved.
   *
   * This software is licensed under terms that can be found in the LICENSE file
@@ -74,7 +74,19 @@
   */
 
 /* USER CODE BEGIN PRIVATE_MACRO */
+  static USBD_CDC_LineCodingTypeDef LineCodingHS = {
+    115200,                       /* baud rate */
+    0x00,                         /* stop bits-1 */
+    0x00,                         /* parity - none */
+    0x08                          /* nb. of bits 8 */
+  };
 
+  static USBD_CDC_LineCodingTypeDef LineCodingFS = {
+    115200,                       /* baud rate */
+    0x00,                         /* stop bits-1 */
+    0x00,                         /* parity - none */
+    0x08                          /* nb. of bits 8 */
+  };
 /* USER CODE END PRIVATE_MACRO */
 
 /**
@@ -218,12 +230,22 @@ static int8_t CDC_Control_FS(uint8_t cmd, uint8_t* pbuf, uint16_t length)
   /* 6      | bDataBits  |   1   | Number Data bits (5, 6, 7, 8 or 16).          */
   /*******************************************************************************/
     case CDC_SET_LINE_CODING:
-
-    break;
+        LineCodingFS.bitrate = (uint32_t) (pbuf[0] | (pbuf[1] << 8) |
+        (pbuf[2] << 16) | (pbuf[3] << 24));
+        LineCodingFS.format = pbuf[4];
+        LineCodingFS.paritytype = pbuf[5];
+        LineCodingFS.datatype = pbuf[6];
+        break;
 
     case CDC_GET_LINE_CODING:
-
-    break;
+        pbuf[0] = (uint8_t) (LineCodingFS.bitrate);
+        pbuf[1] = (uint8_t) (LineCodingFS.bitrate >> 8);
+        pbuf[2] = (uint8_t) (LineCodingFS.bitrate >> 16);
+        pbuf[3] = (uint8_t) (LineCodingFS.bitrate >> 24);
+        pbuf[4] = LineCodingFS.format;
+        pbuf[5] = LineCodingFS.paritytype;
+        pbuf[6] = LineCodingFS.datatype;
+        break;
 
     case CDC_SET_CONTROL_LINE_STATE:
 
