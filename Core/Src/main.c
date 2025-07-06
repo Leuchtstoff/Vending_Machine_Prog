@@ -23,7 +23,8 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-
+#include "usbd_cdc_if.h"
+#include "string.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -87,15 +88,41 @@ int main(void)
 
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
-  MX_USB_DEVICE_Init();
-  /* USER CODE BEGIN 2 */
+  //HAL_GPIO_WritePin(GPIOA, GPIO_PIN_15, GPIO_PIN_SET);
 
+  HAL_Delay(1000);
+
+ MX_USB_DEVICE_Init();
+
+  /* USER CODE BEGIN 2 */
+  char buffer[] = "Hello, World!\r\n";
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
   {
+    
+    /* USER CODE END 2 */
+  
+    /* Infinite loop */
+    /* USER CODE BEGIN WHILE */
+    //HAL_GPIO_TogglePin(LED_1_GPIO_Port, LED_1_Pin); // Toggle LED 1
+
+    HAL_Delay(500);
+    uint32_t len = 0;
+
+  //  CDC_Receive_FS((uint8_t*) &buffer, &len); // Prepare to receive data
+
+   // if(buffer[0] == 'a') // Check if the first character is '1'
+   // {
+    //  HAL_GPIO_TogglePin(LED_2_GPIO_Port, LED_2_Pin); // Toggle LED 2
+    //  CDC_Transmit_FS((uint8_t*) "LED 2 toggled\r\n", 16); // Send confirmation
+   // }
+    
+
+   // CDC_Transmit_FS((uint8_t*) &buffer, strlen(buffer));
+  
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
